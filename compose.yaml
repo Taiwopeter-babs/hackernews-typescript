@@ -1,0 +1,25 @@
+version: '3.9'
+
+
+services:
+  
+  pg_database:
+    container_name: hackernews-postgres
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432   
+    restart: always
+    env_file:
+      - path: .env
+        required: true
+    volumes:
+      - hackernews-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+volumes:
+  hackernews-data:
